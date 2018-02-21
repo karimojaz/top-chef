@@ -5,7 +5,7 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
-
+var array_of_title = [];
 //This, gives us the first page and the number of page
 request(url, function(error, response, html){
   //First we will check to make sure no errors occurred when making the request
@@ -16,7 +16,7 @@ request(url, function(error, response, html){
     $('.poi_card-display-title').filter(function(){
       var data = $(this);
       var title = data.text();
-      titles.push(title.trim());
+      array_of_title.push(title.trim());
     });
     $('.mr-pager-item').filter(function(){
       var data = $(this);
@@ -43,7 +43,7 @@ function Scrape()
   		$('.poi_card-display-title').filter(function(){
   			var data = $(this);
   			var title = data.text();
-  			titles.push(title.trim());
+  			array_of_title.push(title.trim());
   		});
   	}
   	else
