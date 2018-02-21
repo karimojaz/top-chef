@@ -4,10 +4,5 @@
  "address":"string",
  "category":"string", "price_fork":"tuple<int,int>",
  "pictures":[{"url":"string"}],
- "offers":[{"title":"string", "time_fork":"tuple<date,date>"}],
- "menu": {"price_fork":"tuple<int,int>","categories":[{ "category":"string"}], "specialities":[{"speciality":"string"}],"diets":[{"diet":"string"}],"chef":{"picture":"string","name":"string","resume":"string"}},
- "micheling_guide":{"description":"string","stars":"int","wine_stars":"int","fork_stars":"int"},
- "practical_info":{"description":"string"},"opening_times":[{"day":{"time_fork":"tuple<time,time>"}}], "location":{"address":"string","subway_access":"string","map":"string"}, "contact_information":{"phone_number":"string","website":"string"}, "services":[{"service":"string"}], "spoken_languages":[{"spoken_language":"string"}], "ways_of_paying":[{"way_of_paying":"string"}],"partners":[{"partner":"string"}]},
-"average_opinion":{"average_mark":"double","average_table_quality":"double","average_service":"double","average_set":"double","average_price_quality":"double","average_mark":"double","average_ambience":"double","average_drink":"double"},
-"opinions":[{"average_mark":"int","author":"string","date":"date","table_quality":"double","service":"double","set":"double","price_quality":"int","mark":"int","ambience":"int","drink":"int","description":"string"}]
+ "offers":[{"title":"string", "time_fork":"tuple<date,date>"}]
 }
