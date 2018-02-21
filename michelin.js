@@ -27,3 +27,39 @@ request(url, function(error, response, html){
     console.log(error);
     console.log("numb of pages " + number_of_pages);
   });
+
+//Now I'm going to implement the function to scrap
+function Scrape()
+{
+  //I have to put a loop to craw all pages
+	for(var i = 2; i <= number_of_pages; i++)
+	{
+  	var url_pageX = url + "/page-" + i;
+
+    //I do the same function that before but with the new URL
+    request(url_pageX, function(error, response, html){
+  	if(!error){
+  		var $ = cheerio.load(html);
+  		$('.poi_card-display-title').filter(function(){
+  			var data = $(this);
+  			var title = data.text();
+  			titles.push(title.trim());
+  		});
+  	}
+  	else
+  		console.log(error);
+    });
+  }
+}
+
+function Display()
+{
+	console.log(titles);
+	var json = JSON.stringify(titles);
+	fs.writeFile('michelin.json', json, 'utf8', (err) => {
+	  if (err) throw err;
+  });
+}
+
+setTimeout(Scrape, 5000);
+setTimeout(Display,30000);
