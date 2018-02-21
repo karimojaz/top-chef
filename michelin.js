@@ -6,6 +6,8 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
 var array_of_title = [];
+var number_of_pages = 1;
+
 //This, gives us the first page and the number of page
 request(url, function(error, response, html){
   //First we will check to make sure no errors occurred when making the request
@@ -25,7 +27,7 @@ request(url, function(error, response, html){
   }
   else
     console.log(error);
-    console.log("numb of pages " + number_of_pages);
+    console.log("Page number " + number_of_pages);
   });
 
 //Now I'm going to implement the function to scrap
@@ -54,8 +56,8 @@ function Scrape()
 
 function Display()
 {
-	console.log(titles);
-	var json = JSON.stringify(titles);
+	console.log(array_of_title);
+	var json = JSON.stringify(array_of_title);
 	fs.writeFile('michelin.json', json, 'utf8', (err) => {
 	  if (err) throw err;
   });
