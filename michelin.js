@@ -18,11 +18,12 @@ request(url, function(error, response, html){
     $('.poi_card-display-title').filter(function(){
       var data = $(this);
       var title = data.text();
+      var adress = data.
       array_of_title.push(title.trim());
     });
     $('.mr-pager-item').filter(function(){
       var data = $(this);
-      nb_pages = data.children().first().text();
+      number_of_pages = data.children().first().text();
     });
   }
   else
@@ -38,7 +39,7 @@ function Scrape()
 	{
   	var url_pageX = url + "/page-" + i;
 
-    //I do the same function that before but with the new URL
+    //I do the same function that before, but with the new URLs
     request(url_pageX, function(error, response, html){
   	if(!error){
   		var $ = cheerio.load(html);
@@ -56,7 +57,7 @@ function Scrape()
 
 function Display()
 {
-	console.log(array_of_title);
+	//console.log(array_of_title);
 	var json = JSON.stringify(array_of_title);
 	fs.writeFile('michelin.json', json, 'utf8', (err) => {
 	  if (err) throw err;
