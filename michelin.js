@@ -55,7 +55,6 @@ function NumberOfPages(){
       $('.poi_card-display-title').filter(function(){
         var data = $(this);
         var title = data.text();
-        var adress = data.
         array_of_title.push(title.trim());
       });
       $('.mr-pager-item').filter(function(){
