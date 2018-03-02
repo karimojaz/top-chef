@@ -8,6 +8,50 @@ var fs = require('fs');
 var array_of_title = [];
 var number_of_pages = 1;
 
+//this function will be give us the url of our restaurant
+//because in the first page we have all restaurant but we
+//need informations of each of us
+function find_url(url, callback){
+  var url_pageX = 
+}
+
+
+//We need to get information of a restaurant
+//this function return us the information of the restaurant
+//in a JSON format
+function restau_info(url, callback)
+{
+  request(url, function(error, response, html){
+    if(!error){
+      var $ = cheerio.load(html);
+
+      //I need to get a variable to find the stars of the
+      //restaurant that's why I put
+      var stars = 1;
+      if ($('span').hasClass('icon-cotation2etoiles')) {
+          stars = 2;
+      }
+      if ($('span').hasClass('icon-cotation3etoiles')) {
+          stars = 3;
+      }
+
+      //Now I write the restaurant on a JSON type
+      var restaurant = {
+          "name": $('h1').first().text(),
+          "road": $('.thoroughfare').first().text(),
+          "zipcode": $('.postal-code').first().text(),
+          "city": $('.locality').first().text(),
+          "address": $('.thoroughfare').first().text() + ' ' + $('.postal-code').first().text() + ' ' + $('.locality').first().text(),
+          "chef": $('.field--name-field-chef').children('.field__items').text(),
+          "url": url,
+          "stars": stars
+      }
+      callback(restaurant);
+    }
+  })
+}
+
+
 //This, gives us the first page and the number of page
 request(url, function(error, response, html){
   //First we will check to make sure no errors occurred when making the request
