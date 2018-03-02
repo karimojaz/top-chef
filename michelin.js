@@ -4,22 +4,14 @@ var express = require('express');
 var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
-var fs = require('fs');
 var array_of_title = [];
 var number_of_pages = 1;
-
-//this function will be give us the url of our restaurant
-//because in the first page we have all restaurant but we
-//need informations of each of us
-function find_url(url, callback){
-  var url_pageX = 
-}
 
 
 //We need to get information of a restaurant
 //this function return us the information of the restaurant
 //in a JSON format
-function restau_info(url, callback)
+/*function restau_info(url, callback)
 {
   request(url, function(error, response, html){
     if(!error){
@@ -49,31 +41,33 @@ function restau_info(url, callback)
       callback(restaurant);
     }
   })
-}
+}*/
 
 
 //This, gives us the first page and the number of page
-request(url, function(error, response, html){
-  //First we will check to make sure no errors occurred when making the request
-  if(!error){
-    //Next, we will utilize the cheerio library on the returned html which will essentially give us jQuery functionality
-    var $ = cheerio.load(html);
-    //We define variables that we need to capture
-    $('.poi_card-display-title').filter(function(){
-      var data = $(this);
-      var title = data.text();
-      var adress = data.
-      array_of_title.push(title.trim());
+function NumberOfPages(){
+  request(url, function(error, response, html){
+    //First we will check to make sure no errors occurred when making the request
+    if(!error){
+      //Next, we will utilize the cheerio library on the returned html which will essentially give us jQuery functionality
+      var $ = cheerio.load(html);
+      //We define variables that we need to capture
+      $('.poi_card-display-title').filter(function(){
+        var data = $(this);
+        var title = data.text();
+        var adress = data.
+        array_of_title.push(title.trim());
+      });
+      $('.mr-pager-item').filter(function(){
+        var data = $(this);
+        number_of_pages = data.children().first().text();
+      });
+    }
+    else
+      console.log(error);
+      console.log("Page number " + number_of_pages);
     });
-    $('.mr-pager-item').filter(function(){
-      var data = $(this);
-      number_of_pages = data.children().first().text();
-    });
-  }
-  else
-    console.log(error);
-    console.log("Page number " + number_of_pages);
-  });
+}
 
 //Now I'm going to implement the function to scrap
 function Scrape()
@@ -101,12 +95,13 @@ function Scrape()
 
 function Display()
 {
-	//console.log(array_of_title);
+	console.log(array_of_title);
 	var json = JSON.stringify(array_of_title);
 	fs.writeFile('michelin.json', json, 'utf8', (err) => {
 	  if (err) throw err;
   });
 }
 
+NumberOfPages();
 setTimeout(Scrape, 5000);
 setTimeout(Display,30000);
