@@ -33,7 +33,7 @@ function GetURL(){
             $('.restaurantResult-promotion ng-binding ng-scope restaurantResult-promotion--special').filter(function(){
             var data = $(this);
             restaurant.deal=data.text();
-            restaurants.push(restaurant);
+            array_of_restaurant.push(restaurant);
             console.log(data.text());
     });
   }
