@@ -1,14 +1,13 @@
-//The first page will not change so I will put this url in a const.
 const url = 'https://restaurant.michelin.fr/restaurants/france/restaurants-1-etoile-michelin/restaurants-2-etoiles-michelin/restaurants-3-etoiles-michelin';
-var express = require('express');
-var fs = require('fs');
-var request = require('request');
-var cheerio = require('cheerio');
+const lafourchette_urlmobile = "https://m.lafourchette.com/api/restaurant/search?sort=QUALITY&offer=0&search_text=";
+const lafourchette_url = "https://www.lafourchette.com/restaurant/card/";
+const express = require('express');
+const fs = require('fs');
+const request = require('request');
+const cheerio = require('cheerio');
+const https = require('https');
 var array_of_title = [];
 var number_of_pages = 1;
-
-
-
 
 //This, gives us the first page and the number of page
 function NumberOfPages(){
@@ -30,7 +29,6 @@ function NumberOfPages(){
     }
     else
       console.log(error);
-      console.log("Page number " + number_of_pages);
     });
 }
 
@@ -58,18 +56,57 @@ function Scrape()
   }
 }
 
-function Display()
+/*function Display()
 {
 	console.log(array_of_title);
 	var json = JSON.stringify(array_of_title);
 	fs.writeFile('michelin.json', json, 'utf8', (err) => {
 	  if (err) throw err;
   });
+}*/
+
+function getURL(callback){
+      https.get(lafourchette_urlmobile + encodeURI('agape'), (res) => {
+      var data = '';
+
+      res.on('data', (d) => {
+       data += d;
+      });
+
+      res.on('end', () => {
+              var obj = JSON.parse(data);
+              callback(obj.items[0].id);
+      });
+
+      }).on('error', (e) => {
+        console.error(e);
+      });
+}
+
+function getRestaurant(restaurantId){
+        const options = {
+                host: 'www.lafourchette.com',
+                path: '/restaurant/card/' + restaurantId,
+                headers: {
+                        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
+                }
+        }
+        https.get(options, (resp) => {
+                var data = '';
+
+                resp.on('data', (d) => {
+                        data += d;
+                });
+
+                resp.on('end', () => {
+                        //console.log(data);
+                });
+
+        }).on("error", (err) => {
+                console.log("Error: " + err.message);
+        });
 }
 
 NumberOfPages();
-setTimeout(Scrape, 5000);
-setTimeout(Display,30000);
-module.exports.NumberOfPages = NumberOfPages;
-module.exports.Scrape = Scrape;
-module.exports.Display = Display;
+setTimeout(Scrape(), 5000);
+setTimeout(getURL(getRestaurant), 1000);
