@@ -194,3 +194,6 @@ Some things to do:
 ## Licence
 
 [Uncopyrighted](http://zenhabits.net/uncopyright/)
+
+
+I found a lot of issues for this project. That's why today I prefer erase everything that I did and start from the beginning.
