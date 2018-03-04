@@ -7,8 +7,6 @@ const lafourchette_url = "https://www.lafourchette.com/search-refine";
 var michelinJSON = "restaurantMichelin.json";
 var restaurantLafourchette = "restaurantLaFourchette.json";
 
-var restau = {'name':'Agape','zipcode':'75017'};
-
 function findRestaurant(restau){
   var urlRestau = lafourchette_url + "/" + restau.name;
   request({ uri: urlRestau, headers : {
@@ -32,5 +30,3 @@ function findRestaurant(restau){
       console.log(number_of_pages);
   });
 }
-
-findRestaurant(restau);
