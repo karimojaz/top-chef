@@ -90,7 +90,7 @@ function getPromo(restaurant){
             var link = $(this);
             promotion += '{ '
             try{
-                promotion += '" promotionTitle" : "' + link[0].children[0].children[0].data + '",'
+                promotion += '"promotionTitle" : "' + link[0].children[0].children[0].data + '",'
             }
             catch(e)
             {
@@ -126,7 +126,7 @@ function getPromo(restaurant){
             promotion += '{ "eventTitle" : "' + link[0].children[0].children[0].data + '", "eventDetail" : "' + link[0].children[1].children[0].data + '", "eventDetail2" : "' + link[0].children[2].children[0].data + '" }, ';
         });
         promotion += ' ]}, ';
-        fs.appendFileSync("promotion.json",promotion);
+        fs.appendFileSync("promolafourchette.json",promotion);
     });
 }
 
@@ -135,7 +135,7 @@ function getAllPromo(){
     var finalJSON = JSON.parse(fs.readFileSync(restaurantLafourchette));
 
     var restaurant = finalJSON.restaurantFourchette;
-    fs.writeFileSync("promotion.json",'{"promotions": [');
+    fs.writeFileSync("promolafourchette.json",'{"promotions": [');
 
     for(var i =0; i < restaurant.length; i++){
         getPromotion(restaurant[i]);
