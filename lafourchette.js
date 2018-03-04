@@ -68,7 +68,6 @@ function getURL(){
 
     var jsonContent = '{"restaurantFourchette":[';
     fs.writeFileSync(restaurantLafourchette,jsonContent);
-    console.log(restaurantMichelin.length);
     var i = 0;
     while(i < (restaurantMichelin.length)){
         try{
@@ -90,18 +89,23 @@ function getPromo(restaurant){
       }
     },function(error, resp, html) {
         var $ = cheerio.load(html);
-        console.log("\n" + restaurant.name);
-
-        console.log("|| PROMOTION ||");
+        var promotion = '\n{ "originName" : "' + restaurant.originName + '", "name" : "' + restaurant.name + '", "place" : "' + restaurant.place + '", "link" : "' + restaurant.link + '", "promotion" : [ ' ;
         $("div[class = 'saleType saleType--specialOffer']").each(function(){
             var link = $(this);
-            console.log("{" + link[0].children[0].children[0].data);
+            promotion += '{ '
             try{
-                console.log(link[0].children[1].children[0].data);
+                promotion += '" promotionTitle" : "' + link[0].children[0].children[0].data + '",'
             }
             catch(e)
             {
                 console.log(e);
+            }
+            try{
+              promotion += '"promotionDetail" : "' + link[0].children[1].children[0].data + '",';
+            }
+            catch(e)
+            {
+              console.log(e);
             }
             try
             {
@@ -111,22 +115,22 @@ function getPromo(restaurant){
                        promotionDescription += link[0].children[3].children[0].children[i].data;
                     }
                 }
-                console.log(promotionDescription + "}");
+                promotion += '"promotionDescription" : "' + promotionDescription + '" ';
             }
             catch(e)
             {
                 console.log("}");
             }
+            promotion += '}, ';
         });
+        promotion += ' ], "event" : [ ';
 
-        //Event
-        console.log("|| EVENT ||");
         $("div[class = 'saleType saleType--event']").each(function(){
             var link = $(this);
-            console.log("{" + link[0].children[0].children[0].data);
-            console.log(link[0].children[1].children[0].data);
-            console.log(link[0].children[2].children[0].data + "}\n");
+            promotion += '{ "eventTitle" : "' + link[0].children[0].children[0].data + '", "eventDetail" : "' + link[0].children[1].children[0].data + '", "eventDetail2" : "' + link[0].children[2].children[0].data + '" }, ';
         });
+        promotion += ' ]}, ';
+        fs.appendFileSync("promotion.json",promotion);
     });
 }
 
@@ -135,10 +139,11 @@ function getAllPromo(){
     var finalJSON = JSON.parse(fs.readFileSync(restaurantLafourchette));
 
     var restaurant = finalJSON.restaurantFourchette;
+    fs.writeFileSync("promotion.json",'{"promotions": [');
 
     for(var i =0; i < restaurant.length; i++){
         getPromotion(restaurant[i]);
     }
 }
 
-getURL();
+getAllPromo();
