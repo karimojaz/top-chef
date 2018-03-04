@@ -7,8 +7,7 @@ const urlMich = 'https://restaurant.michelin.fr'
 
 //I try to implement the JSON file
 var jsonFile = "restaurantMichelin.json";
-var jsonContent = '{"restaurant michelin" : [';
-var jsonLastCaract = ']}'
+var jsonContent = '{"restaurantGuide" : [';
 fs.writeFileSync(jsonFile,jsonContent);
 
 var number_of_pages = 1;
