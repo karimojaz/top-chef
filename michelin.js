@@ -8,6 +8,7 @@ const urlMich = 'https://restaurant.michelin.fr'
 //I try to implement the JSON file
 var jsonFile = "restaurantMichelin.json";
 var jsonContent = '{"restaurant michelin" : [';
+var jsonLastCaract = ']}'
 fs.writeFileSync(jsonFile,jsonContent);
 
 var number_of_pages = 1;
@@ -62,10 +63,8 @@ function RestaurantMichelin(){
                     city = $2("span[class=locality]")[0].children[0].data;
                     tel = $2("div[class=tel]").text();
 
-                    //var jsonFinal = '{ "name" : "' + name + '", "street" : "' + street + '", "zipcode" : "' + zipCode + '", "city" : "' + city + '", "tel" : "' + tel + '" },\n';
                     var jsonFinal = '{ "name" : "' + name + '", "street" : "' + street + '", "zipcode" : "' + zipCode + '", "city" : "' + city + '", "tel" : "' + tel + '" },\n';
                     fs.appendFileSync(jsonFile,jsonFinal);
-
                 });
               });
             });
